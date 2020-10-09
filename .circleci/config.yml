@@ -17,7 +17,7 @@ jobs:
           root: ~/app
           paths:
             - .
-  
+
   # Puppeteer Example
   test-puppeteer:
     working_directory: ~/app
