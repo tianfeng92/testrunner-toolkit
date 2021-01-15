@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install saucectl
+          command: npm install saucectl && alias saucectl=~/app/node_modules/saucectl/index.js
       - persist_to_workspace:
           root: ~/app
           paths:
