@@ -7,12 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build Project
-          command: |
-            npm run build
+          name: Install saucectl
+          command: npm install -g saucectl
       - persist_to_workspace:
           root: ~/app
           paths:
