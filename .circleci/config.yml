@@ -8,16 +8,12 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build Project
-          command: |
-            npm run build
+          command: npm install saucectl
       - persist_to_workspace:
           root: ~/app
           paths:
             - .
-
+  
   # Puppeteer Example
   test-puppeteer:
     working_directory: ~/app
@@ -70,12 +66,12 @@ jobs:
   test-cypress:
     working_directory: ~/app
     docker:
-      - image: saucelabs/stt-cypress-mocha-node:latest
+      - image: node:10.12
     steps:
       - attach_workspace:
           at: ~/app
       - run:
-          name: Testcafe Tests
+          name: Cypress Tests
           command: |
             saucectl run -c ./.sauce/cypress.yml
           environment:
@@ -87,12 +83,6 @@ workflows:
   default_workflow:
     jobs:
       - setup
-      - test-puppeteer:
-          requires:
-            - setup
-      - test-playwright:
-          requires:
-            - setup
-      - test-testcafe:
+      - test-cypress:
           requires:
             - setup
