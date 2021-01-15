@@ -1,66 +1,17 @@
 version: 2.1
 jobs:
   setup:
+    machine: true
     working_directory: ~/app
-    docker:
-      - image: circleci/node:10.12
     steps:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install saucectl && alias saucectl=~/app/node_modules/saucectl/index.js
+          command: npm install saucectl && export PATH=$PATH:~/app/node_modules/saucectl/bin
       - persist_to_workspace:
           root: ~/app
           paths:
             - .
-  
-  # Puppeteer Example
-  test-puppeteer:
-    working_directory: ~/app
-    docker:
-      - image: saucelabs/stt-puppeteer-jest-node:latest
-    steps:
-      - attach_workspace:
-          at: ~/app
-      - run:
-          name: Puppeteer Tests
-          command: |
-            saucectl run -c ./.sauce/puppeteer.yml
-          environment:
-            BUILD_ID: $CIRCLE_BUILD_NUM
-            BUILD_ENV: CircleCI
-
-  # Playwright Example
-  test-playwright:
-    working_directory: ~/app
-    docker:
-      - image: saucelabs/stt-playwright-jest-node:latest
-    steps:
-      - attach_workspace:
-          at: ~/app
-      - run:
-          name: Playwright Tests
-          command: |
-            saucectl run -c ./.sauce/playwright.yml
-          environment:
-            BUILD_ID: $CIRCLE_BUILD_NUM
-            BUILD_ENV: CircleCI
-
-  # Testcafe Example
-  test-testcafe:
-    working_directory: ~/app
-    docker:
-      - image: saucelabs/stt-testcafe-node:latest
-    steps:
-      - attach_workspace:
-          at: ~/app
-      - run:
-          name: Testcafe Tests
-          command: |
-            saucectl run -c ./.sauce/testcafe.yml
-          environment:
-            BUILD_ID: $CIRCLE_BUILD_NUM
-            BUILD_ENV: CircleCI
 
   # Cypress Example
   test-cypress:
