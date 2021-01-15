@@ -65,6 +65,8 @@ jobs:
   # Cypress Example
   test-cypress:
     working_directory: ~/app
+    docker:
+      - image: node:10.12
     steps:
       - attach_workspace:
           at: ~/app
