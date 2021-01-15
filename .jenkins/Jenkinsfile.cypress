@@ -28,7 +28,7 @@
 pipeline {
   agent {
      docker {
-       image 'saucelabs/stt-cypress-mocha-node:latest'
+       image 'node:10.12'
      }
   }
 
@@ -44,8 +44,12 @@ pipeline {
     stage('run') {
       steps {
         // This step trigger the test 
-        echo 'Run Sauce Pipeline Test'
-        sh 'cd ~/app && saucectl run -c ./.sauce/cypress.yml'
+        echo 'Run Sauce Cypress Pipeline Test'
+        sh 'npm install -g saucectl'
+        sh 'rm -rf testrunner-toolkit || true'
+        sh '/usr/bin/git clone https://github.com/saucelabs/testrunner-toolkit.git'
+        sh 'cd testrunner-toolkit && saucectl run -c .sauce/cypress.yml'
+        sh 'rm -rf ../testrunner-toolkit'
       }
     }
   }

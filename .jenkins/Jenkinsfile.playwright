@@ -28,7 +28,7 @@
 pipeline {
   agent {
      docker {
-       image 'saucelabs/stt-playwright-jest-node:latest'
+       image 'node:10.12'
      }
   }
 
@@ -44,7 +44,12 @@ pipeline {
     stage('run') {
       steps {
         // This step trigger the test 
-        sh 'cd ~/app && saucectl run -c ./.sauce/playwright.yml'
+        echo 'Run Sauce Playwright Pipeline Test'
+        sh 'npm install -g saucectl'
+        sh 'rm -rf testrunner-toolkit || true'
+        sh '/usr/bin/git clone https://github.com/saucelabs/testrunner-toolkit.git'
+        sh 'cd testrunner-toolkit && saucectl run -c .sauce/playwright.yml'
+        sh 'rm -rf ../testrunner-toolkit'
       }
     }
   }
