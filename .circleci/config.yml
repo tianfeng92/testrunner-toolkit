@@ -34,6 +34,6 @@ workflows:
   default_workflow:
     jobs:
       - setup
-      - test-cyress:
+      - test-cypress:
           requires:
             - setup
