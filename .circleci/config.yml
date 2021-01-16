@@ -37,8 +37,7 @@ jobs:
   # Playwright Example
   test-playwright:
     working_directory: ~/app
-    docker:
-      - image: circleci/node:10.12
+    machine: true
     steps:
       - attach_workspace:
           at: ~/app
