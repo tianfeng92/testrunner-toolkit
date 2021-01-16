@@ -21,6 +21,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/app
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Cypress Tests
           command: |
@@ -28,8 +30,7 @@ jobs:
           environment:
             BUILD_ID: $CIRCLE_BUILD_NUM
             BUILD_ENV: CircleCI
-      - setup_remote_docker:
-        version: 19.03.13
+      
 
 workflows:
   version: 2
