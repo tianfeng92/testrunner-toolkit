@@ -8,11 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build Project
-          command: |
-            npm run build
+          command: npm install -g saucectl
       - persist_to_workspace:
           root: ~/app
           paths:
@@ -22,7 +18,7 @@ jobs:
   test-puppeteer:
     working_directory: ~/app
     docker:
-      - image: saucelabs/stt-puppeteer-jest-node:latest
+      - image: node:10.12
     steps:
       - attach_workspace:
           at: ~/app
