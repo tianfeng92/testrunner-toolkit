@@ -13,7 +13,8 @@ jobs:
           root: ~/app
           paths:
             - .
- # Cypress Example
+
+  # Cypress Example
   test-cypress:
     working_directory: ~/app
     docker:
@@ -32,7 +33,25 @@ jobs:
           environment:
             BUILD_ID: $CIRCLE_BUILD_NUM
             BUILD_ENV: CircleCI
-      
+
+  # Playwright Example
+  test-playwright:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:10.12
+    steps:
+      - attach_workspace:
+          at: ~/app
+      - setup_remote_docker:
+          version: 19.03.13
+      - run:
+          name: Cypress Tests
+          command: |
+            chmod -R 777 ./tests
+            ~/app/node_modules/.bin/saucectl run -c ./.sauce/playwright.yml
+          environment:
+            BUILD_ID: $CIRCLE_BUILD_NUM
+            BUILD_ENV: CircleCI
 
 workflows:
   version: 2
@@ -40,5 +59,8 @@ workflows:
     jobs:
       - setup
       - test-cypress:
+          requires:
+            - setup
+      - test-playwright:
           requires:
             - setup
